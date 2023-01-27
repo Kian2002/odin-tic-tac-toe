@@ -7,6 +7,7 @@ const GameBoard = (() => {
   };
 
   const setField = (index, value) => {
+    if (board[index] != "") return GameController.setRound();
     board[index] = value;
   };
 
@@ -39,7 +40,10 @@ const GameController = (() => {
     return round % 2 === 1 ? player1.getSign() : player2.getSign();
   };
 
-  return { playround };
+  const setRound = () => {
+    round--;
+  };
+  return { playround, setRound };
 })();
 
 // eslint-disable-next-line no-unused-vars
