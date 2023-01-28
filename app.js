@@ -43,15 +43,7 @@ const GameController = (() => {
     winningLogic();
 
     if (round >= 9) {
-      const hiddenModal = document.querySelectorAll(".hidden");
-      hiddenModal.forEach((el) => {
-        el.classList.add("modal");
-      });
-      hiddenModal.forEach((el) => {
-        el.addEventListener("click", () => {
-          el.classList.remove("modal");
-        });
-      });
+      DisplayController.revealModal("The game was a tie!");
       restartGame();
     }
     round++;
@@ -69,6 +61,7 @@ const GameController = (() => {
   const restartGame = () => {
     round = 0;
     GameBoard.clearBoard();
+    gameActive = true;
     DisplayController.updateScreen();
   };
 
@@ -102,12 +95,12 @@ const GameController = (() => {
     }
     if (roundWon) {
       gameActive = false;
-      console.log("winner is " + getCurrentPlayerSign());
+      DisplayController.revealModal(`The Winner is: ${getCurrentPlayerSign()}`);
       return;
     }
   };
 
-  return { playround, setRound, winningLogic };
+  return { playround, setRound, winningLogic, restartGame };
 })();
 
 const DisplayController = (() => {
@@ -129,5 +122,21 @@ const DisplayController = (() => {
     data.onclick = GameController.playround;
   });
 
-  return { updateScreen };
+  const revealModal = (text) => {
+    const hiddenModal = document.querySelectorAll(".hidden");
+    hiddenModal.forEach((el) => {
+      el.classList.add("modal");
+    });
+    hiddenModal.forEach((el) => {
+      el.addEventListener("click", () => {
+        el.classList.remove("modal");
+      });
+    });
+
+    document.getElementById("modal-text").textContent = text;
+
+    GameController.restartGame();
+  };
+
+  return { updateScreen, revealModal };
 })();
