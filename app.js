@@ -11,7 +11,11 @@ const GameBoard = (() => {
     board[index] = value;
   };
 
-  return { getField, setField };
+  const clearBoard = () => {
+    board = ["", "", "", "", "", "", "", "", ""];
+  };
+
+  return { getField, setField, clearBoard };
 })();
 
 const Player = (sign) => {
@@ -30,8 +34,19 @@ const GameController = (() => {
   let round = 1;
 
   const playround = (e) => {
-    console.log(e.target.id);
     GameBoard.setField(e.target.id, getCurrentPlayerSign());
+    if (round >= 9) {
+      const hiddenModal = document.querySelectorAll(".hidden");
+      hiddenModal.forEach((el) => {
+        el.classList.add("modal");
+      });
+      hiddenModal.forEach((el) => {
+        el.addEventListener("click", () => {
+          el.classList.remove("modal");
+        });
+      });
+      restartGame();
+    }
     round++;
     DisplayController.updateScreen();
   };
@@ -43,6 +58,13 @@ const GameController = (() => {
   const setRound = () => {
     round--;
   };
+
+  const restartGame = () => {
+    round = 0;
+    GameBoard.clearBoard();
+    DisplayController.updateScreen();
+  };
+
   return { playround, setRound };
 })();
 
