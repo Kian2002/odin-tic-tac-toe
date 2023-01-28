@@ -6,28 +6,38 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
     <title>Tic-Tac-Toe</title>
 </head>
 
 <body>
-    <main>
+    <main class="main">
+
+        <div class="select-letter">
+            <button class="btn">X</button>
+            <button class="btn">O</button>
+        </div>
+
+
         <table id="game-board">
             <tr class="board-content">
-                <td id="0" class="fr"></td>
+                <td id="0" class="fr top-left"></td>
                 <td id="1" class="fr"></td>
-                <td id="2" class="fr"></td>
+                <td id="2" class="fr top-right"></td>
             </tr>
 
             <tr class="board-content">
                 <td id="3" class="sr"></td>
-                <td id="4" class="sr"></td>
+                <td id="4" class="sr middle"></td>
                 <td id="5" class="sr"></td>
             </tr>
 
             <tr class="board-content">
-                <td id="6" class="tr"></td>
+                <td id="6" class="tr bottom-left"></td>
                 <td id="7" class="tr"></td>
-                <td id="8" class="tr"></td>
+                <td id="8" class="tr bottom-right"></td>
             </tr>
         </table>
 
