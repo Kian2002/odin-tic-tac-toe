@@ -1,6 +1,9 @@
 const GameBoard = (() => {
-  // eslint-disable-next-line no-unused-vars
   let board = ["", "", "", "", "", "", "", "", ""];
+
+  const getAllFields = () => {
+    return board;
+  };
 
   const getField = (index) => {
     return board[index];
@@ -15,7 +18,7 @@ const GameBoard = (() => {
     board = ["", "", "", "", "", "", "", "", ""];
   };
 
-  return { getField, setField, clearBoard };
+  return { getField, setField, clearBoard, getAllFields };
 })();
 
 const Player = (sign) => {
@@ -32,9 +35,13 @@ const GameController = (() => {
   const player1 = Player("X");
   const player2 = Player("O");
   let round = 1;
+  let gameActive = true;
 
   const playround = (e) => {
+    if (!gameActive) return;
     GameBoard.setField(e.target.id, getCurrentPlayerSign());
+    winningLogic();
+
     if (round >= 9) {
       const hiddenModal = document.querySelectorAll(".hidden");
       hiddenModal.forEach((el) => {
@@ -65,10 +72,44 @@ const GameController = (() => {
     DisplayController.updateScreen();
   };
 
-  return { playround, setRound };
+  const winningLogic = () => {
+    const winningArr = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6],
+    ];
+
+    const arr1 = GameBoard.getAllFields();
+
+    let roundWon = false;
+    for (let i = 0; i <= 7; i++) {
+      const winCondition = winningArr[i];
+      let a = arr1[winCondition[0]];
+      let b = arr1[winCondition[1]];
+      let c = arr1[winCondition[2]];
+      if (a === "" || b === "" || c === "") {
+        continue;
+      }
+      if (a === b && b === c) {
+        roundWon = true;
+        break;
+      }
+    }
+    if (roundWon) {
+      gameActive = false;
+      console.log("winner is " + getCurrentPlayerSign());
+      return;
+    }
+  };
+
+  return { playround, setRound, winningLogic };
 })();
 
-// eslint-disable-next-line no-unused-vars
 const DisplayController = (() => {
   const updateScreen = () => {
     document.querySelectorAll(".fr").forEach((data) => {
